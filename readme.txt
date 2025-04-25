@@ -13,6 +13,8 @@ Mr. White API & Chrome Extension Setup
 ======================================
 pip install -r requirements.txt
 
+
+
 =============== Step 2 ===============
     Install the AI-Model
 ======================================
@@ -21,14 +23,9 @@ ollama run matinsy/mr.white
 Or visit manually:
 https://ollama.com/matinsy/mr.white
 
+
+
 =============== Step 3 ===============
-    Start Ollama
-======================================
-ollama serve
-
-Or open the Ollama desktop app.
-
-=============== Step 4 ===============
     Start the FastAPI Server
 ======================================
 python yourfilename.py
@@ -38,7 +35,7 @@ uvicorn yourfilename:app --reload --host 0.0.0.0 --port 8000
 
 ✅ After starting, copy the API Key printed in the terminal.
 
-=============== Step 5 ===============
+=============== Step 4 ===============
     Load the Chrome/Edge/Firefox Extension
 ======================================
 1. Open your browser.
