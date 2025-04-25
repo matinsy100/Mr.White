@@ -1,5 +1,11 @@
 # Let's create the requested README content as a .txt file
 readme_content = """
+
+Mr. White is an advanced Chrome extension (Manifest V3) that integrates Deep Scan phishing detection, keylogger detection, AI-powered analysis, and Real-time Website Detection (RWD) into one seamless platform. It automatically scans websites and links while users browse or review emails, instantly detecting threats and delivering real-time security alerts, insights, and safe browsing tips — all through an intuitive, chat-based interface.
+
+Video how it works = https://www.linkedin.com/feed/update/urn:li:activity:7321516923509202945/
+
+
 Mr. White API & Chrome Extension Setup
 
 =============== Step 1 ===============
@@ -51,4 +57,6 @@ uvicorn yourfilename:app --reload --host 0.0.0.0 --port 8000
 serverUrl: "http://localhost:8000"
 wsBaseUrl: "ws://localhost:8000"
 
+Extension is created by Martin Sy
+https://www.linkedin.com/in/matin-sy/
 
