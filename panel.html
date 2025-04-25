@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+  /* Base Styles */
+  * {
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #3a3a3a #1a1a1a;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    margin: 0;
+    padding: 16px;
+    background-color: #0e0e0e;
+    color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  h3, h4 {
+    margin: 0 0 12px 0;
+    font-size: 22px;
+    color: #ffffff;
+  }
+  
+  hr {
+    margin: 18px 0;
+    border-color: #2c2c2c;
+  }
+  
+  /* Chat Box */
+  #chat-box {
+    height: 1400px;                
+    overflow-y: auto;          
+    overflow-x: hidden;          
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #2a2a2a;
+    background: #141414;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Messages */
+  .message {
+    margin-bottom: 5px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  
+  .message strong {
+    display: inline-block;
+    margin-right: 6px;
+    color: #ffffff;
+  }
+  
+  .message.user {
+    background-color: #2b2b2b;
+    color: #eaeaea;
+    align-self: flex-end;
+  }
+  
+  .message.bot {
+    background-color: #1d1d1d;
+    color: #e0ffe0;
+    border-left: 4px solid #6ee7b7;
+  }
+  
+  .message.bot ol {
+    padding-left: 24px;
+    margin: 8px 0;
+  }
+  
+  .message.bot li {
+    margin-bottom: 8px;
+  }
+  
+  .sender-label {
+    font-weight: bold;
+    color: #fbfbfb;
+    margin-bottom: 4px;
+    display: block;
+    font-size: 14px;
+  }
+  
+  .bot-text {
+    white-space: pre-wrap;
+  }
+  
+  /* Input Container */
+  #input-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05);
+  }
+  
+  #input-container input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px;
+    font-size: 15px;
+    background: #121212;
+    color: #f0f0f0;
+    border-radius: 8px;
+  }
+  
+  #input-container button {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: none;
+    padding: 12px 14px;
+    font-size: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  #input-container button:hover {
+    background-color: #444;
+    transform: scale(1.05);
+  }
+  
+  /* Phishing Controls */
+  .scroll-section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 14px;
+  }
+  
+  .scroll-wrapper {
+    overflow-x: hidden; 
+  }
+  
+  #phishing-controls {
+    display: inline-flex;
+    gap: 24px;
+    min-width: fit-content;
+  }
+  
+  .desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 64px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    color: #cccccc;
+    user-select: none;
+    transition: color 0.2s;
+  }
+  
+  .desktop-icon:hover {
+    color: #ffffff;
+  }
+  
+  .desktop-icon button {
+    background-color: #1f1f1f;
+    border: 2px solid #3a3a3a;
+    font-size: 20px;
+    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    color: #dddddd;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  
+  .desktop-icon button:hover {
+    background-color: #2e2e2e;
+    border-color: #6ee7b7;
+  }
+  
+  .desktop-icon span {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #b0b0b0;
+  }
+  
+  .scroll-btn {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border: 2px solid #3a3a3a;
+    font-size: 18px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .scroll-btn:hover {
+    background-color: #2c2c2c;
+    border-color: #6ee7b7;
+  }
+  
+  /* Results and Indicators */
+  #phish-result {
+    font-weight: 500;
+    margin-top: 6px;
+    padding: 10px;
+    background-color: #141414;
+    border-radius: 6px;
+    color: #e0e0e0;
+    border: 1px solid #2a2a2a;
+  }
+  
+  .typing-indicator {
+    font-style: italic;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: blink 1.5s infinite;
+  }
+  
+  .dot-loader {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+  }
+  
+  .dot-loader span {
+    display: inline-block;
+    font-size: 22px;
+    color: #ffffff;
+    animation: dot-grow 1.2s infinite ease-in-out;
+    transform-origin: center;
+  }
+  
+  .dot-loader span:nth-child(1) { animation-delay: 0s; }
+  .dot-loader span:nth-child(2) { animation-delay: 0.2s; }
+  .dot-loader span:nth-child(3) { animation-delay: 0.4s; }
+  
+  /* Special States */
+  .glow-scan {
+    color: #6ee7b7;
+    text-shadow: 0 0 8px #6ee7b7;
+  }
+  
+  #rpd-toggle-btn.rpd-active {
+    background-color: #53c06c !important;
+    border-color: #46cc65 !important;
+    animation: glowBreath 2s ease-in-out infinite;
+    box-shadow: 0 0 6px #6ee7b7, inset 0 0 4px #6ee7b7;
+  }
+  
+  #scan-Btn.glow-green {
+    animation: glowBreath 2s ease-in-out infinite;
+    border-color: #6ee7b7;
+  }
+  
+  #scan-Btn.loading i,
+  .kld-connecting i,
+  .fa-spinner.fa-spin {
+    animation: spin 1s linear infinite;
+  }
+  
+  #theme-toggle.theme-active {
+    background-color: #3b82f6 !important;
+    border-color: #2563eb !important;
+  }
+  
+  #theme-toggle.theme-active i,
+  #kl-toggle-btn.kld-active i {
+    color: #ffffff !important;
+  }
+  
+  #kl-toggle-btn.kld-active {
+    background-color: #53c06c !important;
+    border-color: #46cc65 !important;
+  }
+  
+  /* Scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+  }
+  
+  /* Animations */
+  @keyframes glowBreath {
+    0% { box-shadow: 0 0 4px #6ee7b7, inset 0 0 4px #6ee7b7; }
+    50% { box-shadow: 0 0 12px #6ee7b7, inset 0 0 8px #6ee7b7; }
+    100% { box-shadow: 0 0 4px #6ee7b7, inset 0 0 4px #6ee7b7; }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 78, 78, 0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 78, 78, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 78, 78, 0); }
+  }
+  
+  @keyframes blink {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.3; }
+  }
+  
+  @keyframes dot-grow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+  }
+  
+  /* Light Theme */
+  body.light-theme {
+    background-color: #eeeeee;
+    color: #2a2a2a;
+  }
+  
+  body.light-theme h3,
+  body.light-theme h4 {
+    color: #2a2a2a;
+  }
+  
+  body.light-theme #chat-box {
+    background-color: #f5f5f5;
+    color: #2a2a2a;
+    border: 1px solid #c7c7c7;
+    box-shadow: none;
+  }
+  
+  body.light-theme .message.user {
+    background-color: #d8d8d8;
+    color: #1e1e1e;
+  }
+  
+  body.light-theme .message.bot {
+    background-color: #e2e2e2;
+    color: #1e1e1e;
+    border-left: 4px solid #9b9b9b;
+  }
+  
+  body.light-theme .message strong {
+    color: #3a3a3a;
+  }
+  
+  body.light-theme .message.bot ol {
+    color: #2a2a2a;
+  }
+  
+  body.light-theme #input-container {
+    background-color: #dcdcdc;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+  
+  body.light-theme #input-container input[type="text"] {
+    background: #f0f0f0;
+    color: #2a2a2a;
+    border: 1px solid #bbbbbb;
+  }
+  
+  body.light-theme #input-container button {
+    background-color: #cfcfcf;
+    color: #2a2a2a;
+  }
+  
+  body.light-theme #input-container button:hover {
+    background-color: #bfbfbf;
+  }
+  
+  body.light-theme .scroll-btn,
+  body.light-theme .desktop-icon button {
+    background-color: #d5d5d5;
+    border-color: #b2b2b2;
+    color: #2a2a2a;
+  }
+  
+  body.light-theme .desktop-icon span {
+    color: #4a4a4a;
+  }
+  
+  body.light-theme .desktop-icon:hover {
+    color: #1f1f1f;
+  }
+  
+  body.light-theme hr {
+    border-color: #bbbbbb;
+  }
+  
+  body.light-theme #phish-result {
+    background-color: #eaeaea;
+    color: #2a2a2a;
+    border: 1px solid #bbbbbb;
+  }
+  
+  body.light-theme ::-webkit-scrollbar-track {
+    background: #d4d4d4;
+  }
+  
+  body.light-theme ::-webkit-scrollbar-thumb {
+    background: #a6a6a6;
+    border: 2px solid #d4d4d4;
+  }
+  
+  body.light-theme * {
+    scrollbar-color: #a6a6a6 #d4d4d4;
+  }
+  </style>
+</head>
+<body>
+  <div id="chat-box"></div>
+
+  <div id="input-container">
+    <input id="user-input" type="text" placeholder="Type a message..." />
+    <button id="send-btn" title="Send">➤</button>
+  </div>
+
+  <hr />
+  <div class="scroll-section">
+    <button class="scroll-btn" id="scroll-left"><i class="fas fa-chevron-left"></i></button>
+
+    <div class="scroll-wrapper">
+      <div id="phishing-controls">
+        <div class="desktop-icon" id="scan-wrapper" title="Scan Email or Page">
+          <button id="scan-Btn"><i class="fas fa-search"></i></button>
+          <span>Deep Scan</span>
+        </div>
+
+        <div class="desktop-icon" id="rpd-wrapper" title="Enable Real-Time Web Detection">
+          <button id="rpd-toggle-btn"><i class="fas fa-shield-alt"></i></button>
+          <span>RWD</span>
+        </div>
+
+        <div class="desktop-icon" id="trash-wrapper" title="Delete Messages">
+          <button id="trash-btn"><i class="fas fa-trash"></i></button>
+          <span>New Chat</span>
+        </div>
+
+        <div class="desktop-icon" title="Toggle Theme">
+          <button id="theme-toggle"><i class="fas fa-adjust"></i></button>
+          <span>Theme</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="scroll-btn" id="scroll-right"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <script src="panel.js"></script>
+  <script src="background.js"></script>
+</body>
+</html>
