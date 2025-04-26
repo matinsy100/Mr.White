@@ -1,8 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Mr.White",
-  "version": "1.0",
+  "name": "Mr. White Chatbot",
+  "version": "0.8",
   "description": "Cybersecurity assistant that detects suspicious behavior, phishing threats, and keyloggers on websites.",
+  "author": "Martin Sy",
+  "copyright": "© 2025 Martin Sy. All rights reserved.",
+  "name": "Mr.White",
   "icons": {
     "16": "icons/mrwhite16.png",
     "48": "icons/mrwhite48.png",
