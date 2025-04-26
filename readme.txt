@@ -81,4 +81,4 @@ wsBaseUrl: "ws://localhost:8000"
 
 Extension is created by Martin Sy
 https://www.linkedin.com/in/matin-sy/
-
+© 2025 Martin Sy. All rights reserved.
