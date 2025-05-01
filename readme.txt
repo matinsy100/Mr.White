@@ -80,4 +80,4 @@ serverUrl: "http://localhost:8000"
 wsBaseUrl: "ws://localhost:8000"
 
 Extension is created by Martin Sy
-https://www.linkedin.com/in/matin-sy/
+https://www.linkedin.com/feed/update/urn:li:activity:7323338155162488833/
